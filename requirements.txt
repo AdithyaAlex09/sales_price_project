@@ -1,0 +1,11 @@
+kaggle
+pyspark
+mlflow
+apache-airflow
+scikit-learn
+numpy
+pandas
+matplotlib
+seaborn
+ipykernel
+xgboost
