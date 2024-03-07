@@ -1,0 +1,17 @@
+FROM python:3.8-slim
+
+
+ENV AIRFLOW_HOME=/usr/local/airflow
+ENV PYTHONPATH="${PYTHONPATH}:${AIRFLOW_HOME}"
+
+RUN pip install -r requirements.txt
+
+RUN pip install apache-airflow[crypto,celery,postgres,mysql,ssh,redis]==2.2.3
+
+RUN airflow db init
+
+EXPOSE 8080
+EXPOSE 5555
+
+CMD ["airflow", "webserver", "--port", "8080"]
+CMD ["airflow", "scheduler"]
