@@ -40,24 +40,9 @@ def add_item_identifier_categories_column(df):
 def one_hot_encode(df, columns):
     return pd.get_dummies(df, columns=columns, drop_first=True)
 
-import pandas as pd
-
 def drop_column(df, column_name):
     df.drop(labels=[column_name], axis=1, inplace=True)
     return df
-
-def preprocess_numerical_features(train_df):
-    numerical_features = train_df.select_dtypes(include=['int64', 'float64']).columns
-    numerical_transformer = Pipeline(steps=[('scaler', StandardScaler())])
-    preprocessor = ColumnTransformer(transformers=[('num', numerical_transformer, numerical_features)])
-    preprocessing_pipeline = Pipeline(steps=[('preprocessor', preprocessor)])
-    processed_train_data = preprocessing_pipeline.fit_transform(train_df)
-    return processed_train_data
-
-
-
-
-
 
 
 def main():
@@ -74,6 +59,7 @@ def main():
     
     train_df = clean_item_fat_content(train_df)
     test_df = clean_item_fat_content(test_df)
+    
     print("Item_Fat_Content_Unique_Values :",train_df.Item_Fat_Content.unique())
     print("Outlet_Size_Unique_Values :",train_df.Outlet_Size.unique())
     print("Outlet_Type_Unique_Values :",train_df.Outlet_Type.unique())
@@ -82,7 +68,9 @@ def main():
     
     categorical_columns = ['Item_Fat_Content', 'Outlet_Size', 'Outlet_Type', 'Outlet_Location_Type']
     train_df, test_df = label_encode_categorical_features(train_df, test_df, categorical_columns)
+    
     for feature in categorical_columns:
+        
         print(feature, "unique values in train:", train_df[feature].unique())
         print(feature, "unique values in test:", test_df[feature].unique())
         
@@ -97,21 +85,14 @@ def main():
     
     train_df = drop_column(train_df, 'Item_Identifier')
     test_df = drop_column(test_df, 'Item_Identifier')
+    print("shape_of_train_df :",train_df.shape)
     
-    numerical_features = train_df.select_dtypes(include=['int64', 'float64']).columns
-    numerical_transformer = Pipeline(steps=[('scaler', StandardScaler())])
-    preprocessor = ColumnTransformer(transformers=[('num', numerical_transformer, numerical_features)])
-    preprocessing_pipeline = Pipeline(steps=[('preprocessor', preprocessor)])
-    processed_train_data = preprocessing_pipeline.fit_transform(train_df)
-    
-    processed_data = preprocess_numerical_features(train_df)
-    print("Processed data shape :", processed_data.shape)
-
-    
+    #saving preprocessed data
     folder = "D://sales_price_project/preprocessed_data"
     
     train_save_path = os.path.join(folder,'preprocessed_train.csv')
     train_df.to_csv(train_save_path, index=False)
+    
     test_save_path = os.path.join(folder,'preprocessed_test.csv')
     test_df.to_csv(test_save_path, index=False)
     
