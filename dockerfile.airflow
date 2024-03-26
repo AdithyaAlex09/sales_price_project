@@ -1,17 +1,39 @@
-FROM python:3.8-slim
+# Use the Apache Airflow base image
+FROM apache/airflow:2.7.1-python3.11
+
+USER root
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y procps && \
+    apt-get install -y gcc python3-dev openjdk-11-jdk && \
+    apt-get clean
+    
+# Download and install Spark
+ENV SPARK_VERSION=3.2.1
+ENV HADOOP_VERSION=3.2
+
+RUN curl -O https://archive.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz && \
+    tar xf spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz -C /usr/local && \
+    rm spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION.tgz && \
+    ln -s /usr/local/spark-$SPARK_VERSION-bin-hadoop$HADOOP_VERSION /usr/local/spark
 
 
-ENV AIRFLOW_HOME=/usr/local/airflow
-ENV PYTHONPATH="${PYTHONPATH}:${AIRFLOW_HOME}"
+# Set environment variables for Spark
+ENV SPARK_HOME=/usr/local/spark
+ENV PATH=$PATH:$SPARK_HOME/bin
 
-RUN pip install -r requirements.txt
+USER airflow
 
-RUN pip install apache-airflow[crypto,celery,postgres,mysql,ssh,redis]==2.2.3
+# Install Apache Airflow and other Python dependencies
+#RUN pip install apache-airflow apache-airflow-providers-apache-spark
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
 
-RUN airflow db init
+# Expose necessary Airflow ports
+EXPOSE 8080 5555 8793
 
-EXPOSE 8080
-EXPOSE 5555
+WORKDIR /opt/airflow
 
-CMD ["airflow", "webserver", "--port", "8080"]
-CMD ["airflow", "scheduler"]
+CMD ["bash"]
+
