@@ -8,6 +8,7 @@ pyspark
 mlflow==2.9.2
 apache-airflow
 apache-airflow-providers-apache-spark
+apache-airflow-providers-amazon
 scikit-learn
 pyarrow
 minio
