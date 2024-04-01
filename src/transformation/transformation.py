@@ -88,7 +88,7 @@ def main():
     print("shape_of_train_df :",train_df.shape)
     
     #saving preprocessed data
-    folder = "D://sales_price_project/preprocessed_data"
+    folder = "D://sales_price_project/src/preprocessed_data"
     
     train_save_path = os.path.join(folder,'preprocessed_train.csv')
     train_df.to_csv(train_save_path, index=False)
