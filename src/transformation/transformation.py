@@ -60,10 +60,15 @@ def main():
     train_df = clean_item_fat_content(train_df)
     test_df = clean_item_fat_content(test_df)
     
-    print("Item_Fat_Content_Unique_Values :",train_df.Item_Fat_Content.unique())
-    print("Outlet_Size_Unique_Values :",train_df.Outlet_Size.unique())
-    print("Outlet_Type_Unique_Values :",train_df.Outlet_Type.unique())
-    print("Outlet_Location_Type_Unique_Values :",train_df.Outlet_Location_Type.unique())
+    print("Item_Fat_Content_Unique_Values in train :",train_df.Item_Fat_Content.unique())
+    print("Outlet_Size_Unique_Values in train :",train_df.Outlet_Size.unique())
+    print("Outlet_Type_Unique_Values in train :",train_df.Outlet_Type.unique())
+    print("Outlet_Location_Type_Unique_Values in train :",train_df.Outlet_Location_Type.unique())
+    
+    print("Item_Fat_Content_Unique_Values in test :",test_df.Item_Fat_Content.unique())
+    print("Outlet_Size_Unique_Values in test :",test_df.Outlet_Size.unique())
+    print("Outlet_Type_Unique_Values in test :",test_df.Outlet_Type.unique())
+    print("Outlet_Location_Type_Unique_Values in test :",test_df.Outlet_Location_Type.unique())
     
     
     categorical_columns = ['Item_Fat_Content', 'Outlet_Size', 'Outlet_Type', 'Outlet_Location_Type']
