@@ -1,7 +1,7 @@
-import os
-from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from datetime import datetime
+from airflow.hooks.S3_hook import S3Hook
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
@@ -92,13 +92,21 @@ def preprocess_data():
     test_df = drop_column(test_df, 'Item_Identifier')
     print("shape_of_train_df :",train_df.shape)
     
-    folder = "/opt/airflow/processed_data"
+    return train_df, test_df
+
+def upload_to_minio(train_df, test_df):
+    # Convert DataFrame to CSV string
+    train_csv = train_df.to_csv(index=False)
+    test_csv = test_df.to_csv(index=False)
     
-    train_save_path = os.path.join(folder,'preprocessed_train.csv')
-    train_df.to_csv(train_save_path, index=False)
-    
-    test_save_path = os.path.join(folder,'preprocessed_test.csv')
-    test_df.to_csv(test_save_path, index=False)
+    # Upload preprocessed train data to Minio
+    s3_hook = S3Hook(aws_conn_id='minio_connection')
+    s3_train_key = 'preprocessed_train.csv'
+    s3_hook.load_string(train_csv, s3_train_key, bucket_name='your-minio-bucket', replace=True)
+
+    # Upload preprocessed test data to Minio
+    s3_test_key = 'preprocessed_test.csv'
+    s3_hook.load_string(test_csv, s3_test_key, bucket_name='your-minio-bucket', replace=True)
 
 dag = DAG(
     dag_id='data_preprocessing_dag',
@@ -115,4 +123,11 @@ preprocess_task = PythonOperator(
     dag=dag
 )
 
-preprocess_task 
+upload_to_minio_task = PythonOperator(
+    task_id='upload_to_minio_task',
+    python_callable=upload_to_minio,
+    provide_context=True,
+    dag=dag
+)
+
+preprocess_task >> upload_to_minio_task

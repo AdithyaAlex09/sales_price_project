@@ -4,7 +4,7 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from datetime import datetime
 
 default_args = {
-    'owner': 'airflow',
+    'owner': 'adithya',
     'depends_on_past': False,
     'start_date': datetime(2024, 4, 12),
     'email_on_failure': False,
@@ -29,7 +29,7 @@ def upload_to_minio(local_file_path, object_name, bucket_name, replace=False):
 
 # Define the DAG
 with DAG(
-    'upload_to_minio_dag',
+    dag_id='upload_to_minio_dag',
     default_args=default_args,
     description='A DAG to upload a data file to MinIO',
     schedule_interval=None,  # You can set the schedule interval as needed

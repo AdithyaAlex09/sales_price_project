@@ -17,7 +17,7 @@ sys.path.append(path_add)
 file_link=['/opt/airflow/data/Train.csv' , '/opt/airflow/data/Test.csv']
 
 default_args = {
-    'owner': 'ADITHYA',
+    'owner': 'adithya',
     'depends_on_past': False,
     'start_date': datetime(2024, 3, 15),
     'email_on_failure': False,
@@ -28,7 +28,7 @@ default_args = {
 }
 
 # Define the DAG with its structure and tasks
-dag = DAG('Data_store', 
+dag = DAG(dag_id='Data_store', 
           default_args=default_args, 
           description='sales_project_data',
           schedule_interval=timedelta(days=1))
