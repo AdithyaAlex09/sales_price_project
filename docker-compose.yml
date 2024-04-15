@@ -15,12 +15,12 @@ x-airflow-common: &airflow-common
   env_file:
     - airflow.env
   volumes:
-    - ./dags:/opt/airflow/dags
+    - ./airflow/dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
-    - ./modules:/opt/airflow/modules
-    - ./utils:/opt/airflow/utils
-    - ./plugins:/opt/airflow/plugins
-    - ./config:/opt/airflow/config
+    - ./airflow/modules:/opt/airflow/modules
+    - ./airflow/utils:/opt/airflow/utils
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./airflow/config:/opt/airflow/config
     - ./data:/opt/airflow/data
   depends_on:
     - postgres
