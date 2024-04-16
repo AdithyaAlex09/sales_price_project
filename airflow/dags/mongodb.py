@@ -14,7 +14,7 @@ default_args = {
 
 def upload_to_mongodb():
     # Connect to MongoDB with authentication
-    client = MongoClient('mongodb://root:root@host.docker.internal:27017/')
+    client = MongoClient('mongodb://root:root@mongodb:27017/')
     db = client['sales-data']
     collection = db['sales-data']
     
@@ -32,7 +32,7 @@ dag = DAG(
     default_args=default_args,
     description='Upload data to MongoDB',
     schedule_interval=None,
-    start_date=datetime(2024, 4, 15),
+    start_date=datetime(2024, 4, 16),
     catchup=False
 )
 
