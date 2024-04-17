@@ -10,7 +10,7 @@ from pymongo import MongoClient
 
 # DAG parameters
 default_args = {
-    'owner': 'your_name',
+    'owner': 'adithya',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
