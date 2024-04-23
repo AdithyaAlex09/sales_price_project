@@ -141,7 +141,7 @@ dag = DAG(
     dag_id='mongodb_to_Transform_load',
     default_args={
         'owner': 'adithya',
-        'start_date': datetime(2024, 4, 19),
+        'start_date': datetime(2024, 4, 23),
         'catchup': False
     },
     schedule_interval=None
@@ -185,4 +185,5 @@ save_to_minio_task = PythonOperator(
 
 # Task dependencies
 extract_data_task >> transform_data_task >> save_to_minio_task
+
 
