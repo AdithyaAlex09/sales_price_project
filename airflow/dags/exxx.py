@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from io import BytesIO
+from io import StringIO
 from minio import Minio
 import boto3
 import csv
@@ -93,7 +94,7 @@ def drop_column(df, column_name):
 # Define the function to perform data transformations
 def transform_data(csv_data, **kwargs):
     # Convert CSV data to DataFrame
-    df = pd.read_csv(pd.compat.StringIO(csv_data))
+    df = pd.read_csv(StringIO(csv_data))
 
     # Perform data processing
     categorical_columns, _ = find_categorical_numerical_columns(df)
@@ -141,7 +142,7 @@ dag = DAG(
     dag_id='mongodb_to_Transform_load',
     default_args={
         'owner': 'adithya',
-        'start_date': datetime(2024, 4, 23),
+        'start_date': datetime(2024, 4, 24),
         'catchup': False
     },
     schedule_interval=None
