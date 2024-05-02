@@ -139,7 +139,7 @@ def save_to_minio(transformed_csv_data, minio_endpoint, minio_access_key, minio_
 
 # Define the DAG
 dag = DAG(
-    dag_id='mongodb_to_Transform_load',
+    dag_id='mongodb_to_Transform_load_to_Minio',
     default_args={
         'owner': 'adithya',
         'start_date': datetime(2024, 4, 24),
@@ -186,5 +186,3 @@ save_to_minio_task = PythonOperator(
 
 # Task dependencies
 extract_data_task >> transform_data_task >> save_to_minio_task
-
-
