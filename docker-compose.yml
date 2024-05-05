@@ -11,7 +11,7 @@ x-spark-common: &spark-common
 x-airflow-common: &airflow-common
   build:
     context: .
-    dockerfile: Dockerfile.airflow
+    dockerfile: dockerfile.airflow
   env_file:
     - airflow.env
   volumes:
@@ -21,7 +21,6 @@ x-airflow-common: &airflow-common
     - ./airflow/utils:/opt/airflow/utils
     - ./airflow/plugins:/opt/airflow/plugins
     - ./airflow/config:/opt/airflow/config
-    - ./airflow/processed_data:/opt/airflow/processed_data
     - ./data:/opt/airflow/data
   depends_on:
     - postgres
@@ -109,7 +108,7 @@ services:
   mlflow-tracking-server:
     build: 
       context: .
-      dockerfile: Dockerfile.mlflow
+      dockerfile: dockerfile.mlflow
     container_name: mlflow
     depends_on:
       - minio

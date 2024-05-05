@@ -49,7 +49,7 @@ def evaluate_model(model, x_train, y_train, x_test, y_test):
 
 def load_data():
     
-    train_df = pd.read_csv("D:\sales_price_project\src\preprocessed_data\preprocessed_train.csv")
+    train_df = pd.read_csv("src\preprocessed_data\preprocessed_train.csv")
     
     x = train_df.drop('Item_Outlet_Sales', axis=1)  # Features columns
     y = train_df['Item_Outlet_Sales']  # Target column

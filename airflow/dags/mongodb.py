@@ -28,11 +28,11 @@ def upload_to_mongodb():
     collection.insert_many(records)
 
 dag = DAG(
-    dag_id='upload_to_mongodb_dag',
+    dag_id='upload_to_mongodb',
     default_args=default_args,
     description='Upload data to MongoDB',
     schedule_interval=None,
-    start_date=datetime(2024, 4, 16),
+    start_date=datetime(2024, 5, 4),
     catchup=False
 )
 
