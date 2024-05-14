@@ -22,6 +22,7 @@ x-airflow-common: &airflow-common
     - ./airflow/plugins:/opt/airflow/plugins
     - ./airflow/config:/opt/airflow/config
     - ./data:/opt/airflow/data
+    - ./kafka:/opt/airflow/kafka
   depends_on:
     - postgres
   networks:
